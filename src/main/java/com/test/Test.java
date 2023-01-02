@@ -27,10 +27,12 @@ public class Test
               RestHighLevelClient client =
                       new RestHighLevelClient(lowLevelRestClient);
 
+              // https://mkyong.com/elasticsearch/elasticsearch-hello-world-example/
+              // browser http://127.0.0.1:9200/posts/doc/1
               IndexRequest request = new IndexRequest(
                       "posts", //index name
                       "doc",  // type
-                      "1");   // doc id
+                      "3");   // doc id
               String jsonString = "{" +
                       "\"user\":\"kimchy\"," +
                       "\"postDate\":\"2013-01-30\"," +
@@ -39,6 +41,11 @@ public class Test
               request.source(jsonString, XContentType.JSON);
 
               IndexResponse indexResponse = client.index(request);
+
+              String index = indexResponse.getIndex();  //index名称，类型等信息
+              String type = indexResponse.getType();
+              String id = indexResponse.getId();
+              long version = indexResponse.getVersion();
 
               lowLevelRestClient.close();
           }catch(Exception e){
